@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { MessageSquare, UsersRound } from "lucide-react";
+import { MessageSquare, UsersRound, Eye, EyeOff } from "lucide-react";
 import { RasaLogo } from "@/components/brand/rasa-logo";
 
 // `useSearchParams` opts the component out of static prerendering
@@ -50,6 +50,7 @@ function LoginPageInner() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
@@ -165,15 +166,29 @@ function LoginPageInner() {
                   {t('forgotPassword')}
                 </Link>
               </div>
-              <Input
-                id="password"
-                type="password"
-                placeholder={t('passwordPlaceholder')}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="border-white/10 bg-[#130f21]/90 text-white placeholder:text-gray-500 focus-visible:border-[#d4a017] focus-visible:ring-[#d4a017]/25 rounded-xl h-11"
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder={t('passwordPlaceholder')}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="border-white/10 bg-[#130f21]/90 text-white placeholder:text-gray-500 focus-visible:border-[#d4a017] focus-visible:ring-[#d4a017]/25 rounded-xl h-11 pr-11"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors focus:outline-none"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <Button
