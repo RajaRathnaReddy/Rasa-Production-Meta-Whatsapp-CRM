@@ -44,7 +44,8 @@ ENV NODE_ENV=production \
     PORT=3000 \
     HOSTNAME=0.0.0.0
 
-RUN addgroup -S nextjs && adduser -S nextjs -G nextjs
+RUN apk add --no-cache curl && \
+    addgroup -S nextjs && adduser -S nextjs -G nextjs
 
 COPY --from=builder --chown=nextjs:nextjs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
@@ -52,4 +53,8 @@ COPY --from=builder --chown=nextjs:nextjs /app/public ./public
 
 USER nextjs
 EXPOSE 3000
+
+HEALTHCHECK --interval=15s --timeout=5s --start-period=15s --retries=3 \
+  CMD curl -s -f http://127.0.0.1:3000/api/health || exit 1
+
 CMD ["node", "server.js"]
