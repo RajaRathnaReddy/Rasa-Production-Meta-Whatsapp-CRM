@@ -18,8 +18,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { RasaBrandMark } from "@/components/brand/rasa-logo";
+import { OrganizationSwitcher } from "@/components/layout/organization-switcher";
 
 const pageTitles: Record<string, string> = {
+  "/organizations": "organizations",
   "/dashboard": "dashboard",
   "/inbox": "inbox",
   "/notifications": "notifications",
@@ -27,6 +29,8 @@ const pageTitles: Record<string, string> = {
   "/pipelines": "pipelines",
   "/broadcasts": "broadcasts",
   "/automations": "automations",
+  "/flows": "flows",
+  "/agents": "agents",
   "/settings": "settings",
 };
 
@@ -80,7 +84,8 @@ export function Header({ onOpenSidebar }: HeaderProps) {
         </h1>
       </div>
 
-      <div className="flex items-center gap-1.5 sm:gap-3">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <OrganizationSwitcher />
         <ModeToggle />
 
         <DropdownMenu>

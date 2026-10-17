@@ -149,6 +149,19 @@ export async function GET(request: Request) {
       )
     }
 
+    // Check environment verify token first (fast-path & primary handshake for Meta app-level webhooks)
+    const envVerifyToken =
+      process.env.WHATSAPP_VERIFY_TOKEN ||
+      process.env.META_VERIFY_TOKEN ||
+      'rasa_meta_verify_2026'
+
+    if (verifyToken === envVerifyToken) {
+      return new Response(challenge, {
+        status: 200,
+        headers: { 'Content-Type': 'text/plain' },
+      })
+    }
+
     // Fetch all whatsapp configs to check verify tokens
     const { data: configs, error: configError } = await supabaseAdmin()
       .from('whatsapp_config')

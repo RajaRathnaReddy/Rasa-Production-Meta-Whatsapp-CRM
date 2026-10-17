@@ -44,6 +44,7 @@
     "menuSignOut": "로그아웃"
   },
   "Header": {
+    "organizations": "조직",
     "dashboard": "대시보드",
     "inbox": "인박스",
     "notifications": "알림",
@@ -51,6 +52,8 @@
     "pipelines": "파이프라인",
     "broadcasts": "브로드캐스트",
     "automations": "자동화",
+    "flows": "플로우",
+    "agents": "AI 에이전트",
     "settings": "설정",
     "openMenu": "메뉴 열기",
     "openAccountMenu": "계정 메뉴 열기",

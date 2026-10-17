@@ -44,6 +44,7 @@
     "menuSignOut": "Sair"
   },
   "Header": {
+    "organizations": "Organizações",
     "dashboard": "Painel",
     "inbox": "Caixa de entrada",
     "notifications": "Notificações",
@@ -51,6 +52,8 @@
     "pipelines": "Pipelines",
     "broadcasts": "Disparos",
     "automations": "Automações",
+    "flows": "Fluxos",
+    "agents": "Agentes de IA",
     "settings": "Configurações",
     "openMenu": "Abrir menu",
     "openAccountMenu": "Abrir menu da conta",

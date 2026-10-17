@@ -32,7 +32,17 @@ export async function POST(request: Request) {
     // still delivered a real WhatsApp message to the customer and merely
     // failed to record it (surfacing as "sent to Meta but failed to save
     // to DB"). RLS can't un-send that, so the role check belongs here.
-    const { supabase, accountId, userId } = await requireRole('agent')
+    const { supabase, accountId, userId, account } = await requireRole('agent')
+
+    if (account.service_status === 'paused' || account.service_status === 'suspended') {
+      return NextResponse.json(
+        {
+          error:
+            'Services for this organization are currently paused (billing/administrative hold). Please contact administrator to resume.',
+        },
+        { status: 403 }
+      )
+    }
 
     // Per-user rate limit. Bucket key is scoped to this route so
     // `/broadcast` has an independent budget.

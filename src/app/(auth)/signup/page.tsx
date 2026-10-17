@@ -119,26 +119,47 @@ function SignupPageInner() {
     return (
       <div className="relative flex min-h-screen items-center justify-center bg-[#050508] px-4 overflow-hidden">
         {/* Studio Radial Glows */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[radial-gradient(circle,_rgba(123,45,139,0.18)_0%,_rgba(0,0,0,0)_70%)] pointer-events-none blur-3xl" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[radial-gradient(circle,_rgba(212,160,23,0.12)_0%,_rgba(0,0,0,0)_70%)] pointer-events-none blur-3xl" />
         <div className="absolute -top-32 -right-32 w-96 h-96 bg-[radial-gradient(circle,_rgba(0,240,255,0.12)_0%,_rgba(0,0,0,0)_70%)] pointer-events-none blur-3xl" />
         <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-[radial-gradient(circle,_rgba(255,42,133,0.12)_0%,_rgba(0,0,0,0)_70%)] pointer-events-none blur-3xl" />
 
-        <Card className="relative z-10 w-full max-w-md border border-white/10 bg-[#0b0914]/85 shadow-[0_0_60px_-10px_rgba(212,160,23,0.25)] backdrop-blur-2xl rounded-2xl overflow-hidden p-8 text-center">
+        <Card className="relative z-10 w-full max-w-lg border border-white/10 bg-[#0b0914]/90 shadow-[0_0_60px_-10px_rgba(212,160,23,0.25)] backdrop-blur-2xl rounded-2xl overflow-hidden p-8 text-center">
+          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4a017] to-transparent opacity-90" />
+
           <div className="mb-4 flex justify-center">
             <RasaLogo size="lg" subtitle="PRODUCTIONS" />
           </div>
+
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 text-xs font-semibold uppercase tracking-wider mb-4">
+            <span>🔒</span>
+            <span>Meta Tech Provider • Approved Enrollment Only</span>
+          </div>
+
           <CardTitle className="text-2xl font-bold tracking-wider uppercase text-white" style={{ fontFamily: "var(--font-heading)" }}>
-            Invite-Only Registration
+            Client Access Restricted
           </CardTitle>
-          <CardDescription className="text-sm text-gray-400 mt-2 mb-6">
-            Public self-registration is closed. Only users who have been invited by the account administrator can join Rasa Productions CRM.
+
+          <CardDescription className="text-sm text-gray-300 mt-3 mb-6 leading-relaxed">
+            Public self-registration is closed. As an authorized <strong>Meta Tech Provider</strong>, organizations and client accounts are enrolled directly once billing is verified. All enrolled clients receive full access to our complete WhatsApp Cloud API CRM suite.
           </CardDescription>
+
+          <div className="rounded-xl border border-white/5 bg-[#141024]/80 p-4 text-xs text-gray-400 text-left mb-6 space-y-2">
+            <div className="flex items-start gap-2">
+              <span className="text-amber-400 font-bold">✓</span>
+              <span><strong>Paid & Approved Clients:</strong> Please open the direct onboarding link sent to your business email.</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-amber-400 font-bold">✓</span>
+              <span><strong>Need WhatsApp Onboarding?</strong> Contact your Meta Tech Provider administrator to provision your WABA and phone number.</span>
+            </div>
+          </div>
+
           <Link href="/login">
             <Button
               className="h-11 w-full bg-gradient-to-r from-[#d4a017] via-[#f59e0b] to-[#d4a017] text-black font-bold uppercase tracking-wider rounded-xl shadow-[0_0_25px_rgba(212,160,23,0.35)] hover:brightness-110 active:scale-[0.99] transition-all"
               style={{ fontFamily: "var(--font-heading)" }}
             >
-              Return to Sign In
+              Go to Workspace Sign In
             </Button>
           </Link>
         </Card>

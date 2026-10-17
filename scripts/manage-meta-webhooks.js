@@ -23,7 +23,18 @@ async function main() {
       object: 'whatsapp_business_account',
       callback_url: callbackUrl,
       verify_token: verifyToken,
-      fields: ['messages', 'message_template_status_update', 'message_template_quality_update'],
+      fields: [
+        'messages',
+        'message_template_status_update',
+        'message_template_quality_update',
+        'flows',
+        'phone_number_name_update',
+        'phone_number_quality_update',
+        'account_alerts',
+        'account_update',
+        'business_capability_update',
+        'message_echoes'
+      ],
       include_values: true
     })
   });

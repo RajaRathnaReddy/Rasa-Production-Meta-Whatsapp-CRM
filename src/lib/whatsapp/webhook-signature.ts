@@ -57,10 +57,11 @@ export function verifyMetaWebhookSignature(
 ): boolean {
   const secrets = parseAppSecrets(process.env.META_APP_SECRET)
   
-  // If META_APP_SECRET is not configured or is placeholder, allow during setup
+  // If META_APP_SECRET is not configured or is placeholder, allow during setup (outside tests)
   if (
-    secrets.length === 0 ||
-    secrets.some((s) => s.includes('placeholder') || s === 'placeholder-meta-app-secret')
+    process.env.NODE_ENV !== 'test' &&
+    (secrets.length === 0 ||
+      secrets.some((s) => s.includes('placeholder') || s === 'placeholder-meta-app-secret'))
   ) {
     console.warn(
       '[webhook] META_APP_SECRET is unset or placeholder; accepting webhook payload in setup mode'

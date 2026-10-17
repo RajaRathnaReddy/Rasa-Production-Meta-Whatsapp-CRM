@@ -32,10 +32,16 @@ export async function GET() {
     if (profile?.account_id) {
       const { data: accountRow } = await supabase
         .from('accounts')
-        .select('id, name, default_currency')
+        .select('*')
         .eq('id', profile.account_id)
         .maybeSingle();
-      account = accountRow;
+      if (accountRow) {
+        account = {
+          ...accountRow,
+          service_status: accountRow.service_status ?? 'active',
+          billing_status: accountRow.billing_status ?? 'paid',
+        };
+      }
     }
 
     return NextResponse.json({

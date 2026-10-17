@@ -43,6 +43,8 @@ interface AccountSummary {
   /** Default deal currency (ISO-4217). NOT NULL DEFAULT 'USD' in the
    *  DB (migration 021); narrowed to DEFAULT_CURRENCY when absent. */
   default_currency: string;
+  service_status?: 'active' | 'paused' | 'suspended';
+  billing_status?: 'paid' | 'unpaid' | 'trial' | 'overdue';
 }
 
 /**
@@ -130,6 +132,14 @@ interface AuthContextValue {
   canEditSettings: boolean;
   /** True if the caller can send messages and edit operational data (agent+). */
   canSendMessages: boolean;
+  /** Tech Provider service status for active account ('active' | 'paused' | 'suspended') */
+  serviceStatus: 'active' | 'paused' | 'suspended';
+  /** Tech Provider billing status for active account ('paid' | 'unpaid' | 'trial' | 'overdue') */
+  billingStatus: 'paid' | 'unpaid' | 'trial' | 'overdue';
+  /** True when services are stopped or paused */
+  isServicesPaused: boolean;
+  /** Switch active organization workspace */
+  switchOrganization: (targetAccountId: string) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -202,6 +212,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 id: json.account.id,
                 name: json.account.name,
                 default_currency: json.account.default_currency ?? DEFAULT_CURRENCY,
+                service_status: json.account.service_status ?? 'active',
+                billing_status: json.account.billing_status ?? 'paid',
               };
             }
           }
@@ -274,7 +286,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             accountRow = {
               id: account.id,
               name: account.name,
-              default_currency: account.default_currency ?? DEFAULT_CURRENCY,
+              default_currency: (account as any).default_currency ?? DEFAULT_CURRENCY,
+              service_status: (account as any).service_status ?? 'active',
+              billing_status: (account as any).billing_status ?? 'paid',
             };
           }
         }
@@ -446,6 +460,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           ? "ready"
           : "unlinked";
 
+  const serviceStatus = account?.service_status ?? "active";
+  const billingStatus = account?.billing_status ?? "paid";
+  const isServicesPaused = serviceStatus === "paused" || serviceStatus === "suspended";
+
+  const switchOrganization = useCallback(
+    async (targetAccountId: string): Promise<boolean> => {
+      try {
+        const res = await fetch("/api/account/switch", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ accountId: targetAccountId }),
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => null);
+          throw new Error(data?.error || "Failed to switch organization");
+        }
+        if (user) {
+          await fetchProfile(user.id);
+        }
+        return true;
+      } catch (err) {
+        console.error("[AuthProvider] switchOrganization error:", err);
+        return false;
+      }
+    },
+    [user, fetchProfile],
+  );
+
   return (
     <AuthContext.Provider
       value={{
@@ -459,6 +501,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         defaultCurrency: account?.default_currency ?? DEFAULT_CURRENCY,
         accountStatus,
         accountStatusDetail: statusDetail,
+        serviceStatus,
+        billingStatus,
+        isServicesPaused,
+        switchOrganization,
         ...derived,
       }}
     >
@@ -502,6 +548,10 @@ export function useAuth(): AuthContextValue {
       canManageMembers: false,
       canEditSettings: false,
       canSendMessages: false,
+      serviceStatus: "active",
+      billingStatus: "paid",
+      isServicesPaused: false,
+      switchOrganization: async () => false,
     };
   }
   return ctx;

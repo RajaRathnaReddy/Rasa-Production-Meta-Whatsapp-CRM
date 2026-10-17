@@ -72,7 +72,17 @@ export async function POST(request: Request) {
     // to arbitrary phone numbers from the account's WhatsApp number.
     // Nothing about that is recoverable after the fact, so the check has
     // to happen here.
-    const { supabase, accountId, userId } = await requireRole('agent')
+    const { supabase, accountId, userId, account } = await requireRole('agent')
+
+    if (account.service_status === 'paused' || account.service_status === 'suspended') {
+      return NextResponse.json(
+        {
+          error:
+            'Services for this organization are currently paused (billing/administrative hold). Please contact administrator to resume.',
+        },
+        { status: 403 }
+      )
+    }
 
     // Per-user broadcast budget. Note: this limits how often a user
     // can *start* a campaign, not how many messages go out inside

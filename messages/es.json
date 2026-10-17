@@ -44,6 +44,7 @@
     "menuSignOut": "Cerrar sesión"
   },
   "Header": {
+    "organizations": "Organizaciones",
     "dashboard": "Panel",
     "inbox": "Bandeja de entrada",
     "notifications": "Notificaciones",
@@ -51,6 +52,8 @@
     "pipelines": "Pipelines",
     "broadcasts": "Difusiones",
     "automations": "Automatizaciones",
+    "flows": "Flujos",
+    "agents": "Agentes IA",
     "settings": "Configuración",
     "openMenu": "Abrir menú",
     "openAccountMenu": "Abrir menú de la cuenta",
