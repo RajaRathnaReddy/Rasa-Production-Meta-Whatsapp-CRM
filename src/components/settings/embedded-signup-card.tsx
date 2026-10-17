@@ -204,7 +204,9 @@ export function EmbeddedSignupCard({
       override_default_response_type: true,
       extras: {
         feature: 'whatsapp_embedded_signup',
-        sessionInfoVersion: 2,
+        featureType: 'whatsapp_business_app_onboarding',
+        sessionInfoVersion: 3,
+        version: 'v4',
       },
     };
 
